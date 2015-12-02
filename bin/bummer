@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-process.bin = process.title = 'bummer';
-var bummer = require('../');
+process.title = 'bummer';
+var bummer = require('../lib');
 
 console.log('bummer version', bummer.version);

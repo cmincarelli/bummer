@@ -17,8 +17,8 @@
     "url": "https://github.com/cmincarelli/bummer/issues"
   },
   "homepage": "https://github.com/cmincarelli/bummer#readme",
-	"files": [
-		"bin",
-		"lib"
-	]
+  "files": [
+    "bin",
+    "lib"
+  ]
 }
