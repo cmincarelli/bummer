@@ -4,4 +4,4 @@
 process.bin = process.title = 'bummer';
 var bummer = require('../');
 
-console.log('bummer version ', bummer.version);
+console.log('bummer version', bummer.version);
