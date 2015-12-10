@@ -2,9 +2,10 @@
 'use strict';
 
 process.title = 'bummer';
-var bummer = require('../lib'),
+var util = require('util'),
+  bummer = require('../lib'),
   argv = require('yargs')
-  .usage('bummer version %s\n\nEncrypt or decrypt a file.\n\nUsage: $0 [--encrypt (default) | --decrypt] -p [password] file')
+  .usage(util.format('bummer version %s\n\nEncrypt or decrypt a file.\n\nUsage: $0 [--encrypt (default) | --decrypt] -p [password] file', bummer.version))
   .example('$0  --encrypt -p password ~/etc/hosts')
   .demand(['p'])
   .demand(1)
