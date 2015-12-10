@@ -2,6 +2,50 @@
 'use strict';
 
 process.title = 'bummer';
-var bummer = require('../lib');
+var bummer = require('../lib'),
+  argv = require('yargs')
+  .usage('bummer version %s\n\nEncrypt or decrypt a file.\n\nUsage: $0 [--encrypt (default) | --decrypt] -p [password] file')
+  .example('$0  --encrypt -p password ~/etc/hosts')
+  .demand(['p'])
+  .demand(1)
+  .boolean('e')
+  .boolean('d')
+  .alias('e', 'encrypt')
+  .alias('d', 'decrypt')
+  .alias('p', 'password')
+  .describe('e', 'Encrypt a file')
+  .describe('d', 'Decrypt a file')
+  .describe('p', 'Use a password')
+  .argv;
 
-console.log('bummer version', bummer.version);
+var crypto = require('crypto'),
+  fs = require('fs'),
+  algorithm = 'aes-256-ctr',
+  direction = argv.d ? 'decrypt' : 'encrypt',
+  password = argv.p,
+  file = argv._[0],
+  data = fs.readFileSync(file);
+
+function encrypt(text){
+  var cipher = crypto.createCipher(algorithm,password);
+  var crypted = cipher.update(text,'utf8','hex');
+  crypted += cipher.final('hex');
+  return crypted;
+}
+
+function decrypt(text){
+  var decipher = crypto.createDecipher(algorithm,password);
+  var dec = decipher.update(text,'hex','utf8');
+  dec += decipher.final('utf8');
+  return dec;
+}
+
+var methods = {
+  "encrypt": encrypt,
+  "decrypt": decrypt
+};
+
+var str = data.toString();
+var hw = methods[direction](str);
+
+process.stdout.write(hw);
